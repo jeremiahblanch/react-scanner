@@ -104,6 +104,7 @@ export default function Scanner({
         pointerEvents: 'none',
       }} />
     {devices.length > 1 && <select
+    className="barcode-scanner__device-selector"
       value={selectedDevice}
       onChange={e => {
         const v = parseInt(e.target.value)
