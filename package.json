@@ -1,9 +1,9 @@
 {
-  "name": "@alzera/react-scanner",
-  "version": "1.0.4",
+  "name": "@jeremiahblanch/react-scanner",
+  "version": "1.0.5",
   "description": "Barcode scanner component for React apps",
   "license": "MIT",
-  "author": "Alzera Cita <alzeracita23@gmail.com>",
+  "author": "Jeremiah Blanch",
   "keywords": [
     "react",
     "qr",
@@ -14,12 +14,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alzera/react-scanner.git"
+    "url": "git+https://github.com/JeremiahBlanch/react-scanner.git"
   },
   "bugs": {
-    "url": "https://github.com/Alzera/react-scanner/issues"
+    "url": "https://github.com/JeremiahBlanch/react-scanner/issues"
   },
-  "homepage": "https://github.com/Alzera/react-scanner#readme",
+  "homepage": "https://github.com/JeremiahBlanch/react-scanner#readme",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
