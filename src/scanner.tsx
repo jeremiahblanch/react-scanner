@@ -50,7 +50,7 @@ export default function Scanner({
     getDevices()
       .then(ds => {
         setDevices(ds)
-        setSelectedDevice(0)
+        setSelectedDevice(localStorage?.getItem("previousDevice") ?? 0);
       })
       .catch(onError)
 
@@ -60,6 +60,9 @@ export default function Scanner({
   useEffect(() => {
     if (selectedDevice == undefined || selectedDevice >= devices.length) return
 
+    if (localStorage) {
+      localStorage.setItem('previousDevice', selectedDevice);
+    }
     const selected = devices[selectedDevice]
     getUserMedia(selected.deviceId)
       .then(s => {
