@@ -16,6 +16,7 @@ export default function BarcodeScanner({
   decoderOptions,
   style,
   className,
+  canSwitchToImage = true,
 }: ScannerProps & Styleable & {
   switchLabel?: (isScanner: boolean) => React.ReactNode
   dropChildren?: React.ReactNode
@@ -41,18 +42,20 @@ export default function BarcodeScanner({
           decoderOptions={decoderOptions}>
           {dropChildren}
         </DropZone>}
-      <button
-        type="button"
-        onClick={() => setIsScanner(!isScanner)}
-        style={{
-          width: '100%',
-          marginTop: '16px',
-          fontSize: '1rem',
-        }}>
-        {switchLabel !== undefined
-          ? switchLabel(isScanner)
-          : `Switch to ${isScanner ? 'image input' : 'scanner'}`}
-      </button>
+        {canSwitchToImage && <>
+        <button
+          type="button"
+          onClick={() => setIsScanner(!isScanner)}
+          style={{
+            width: '100%',
+            marginTop: '16px',
+            fontSize: '1rem',
+          }}>
+          {switchLabel !== undefined
+            ? switchLabel(isScanner)
+            : `Switch to ${isScanner ? 'image input' : 'scanner'}`}
+        </button>
+        </>}
     </div>
   );
 }
