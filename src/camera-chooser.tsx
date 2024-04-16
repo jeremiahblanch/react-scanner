@@ -62,7 +62,6 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
         </button>
         <select
           style={{
-            display: "none",
             position: "absolute",
             opacity: 0,
           }}
