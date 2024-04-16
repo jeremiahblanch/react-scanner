@@ -1,13 +1,14 @@
 import { ChangeEvent, useRef } from 'react';
 import type CameraChooserProps from "./types/camera-chooser-props";
+import type Styleable from './types/styleable';
 
 // icon from HeroIcons camera solid
-const Icon = () => (
+const Icon = ({ style = {} }: Styleable) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColorstyle"
-    style={{width: '24px', height: '24px'}}
+    style={{ width: "24px", height: "24px" , ...style}}
   >
     <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
     <path
@@ -37,7 +38,7 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
           display: "flex",
           justifyContent: "center",
           left: 0,
-          padding: "0.25rem",
+          padding: "1rem",
           position: "absolute",
           top: 0,
           width: "100%",
@@ -58,7 +59,8 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
           }}
           type="button"
         >
-          <Icon /> &#9662;
+          <Icon style={{ marginRight: "0.5rem" }} />
+          &#9660;
         </button>
         <select
           style={{
