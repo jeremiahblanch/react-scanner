@@ -14,17 +14,16 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        'scanner': resolve(__dirname, 'src/scanner.tsx'),
-        'drop-zone': resolve(__dirname, 'src/drop-zone.tsx'),
-        'barcode-scanner': resolve(__dirname, 'src/barcode-scanner.tsx'),
-        'index': resolve(__dirname, 'src/index.ts'),
+        scanner: resolve(__dirname, "src/scanner.tsx"),
+        "camera-chooser": resolve(__dirname, "src/camera-chooser.tsx"),
+        index: resolve(__dirname, "src/index.ts"),
       },
-      name: 'BarcodeScanner',
+      name: "BarcodeScanner",
     },
     rollupOptions: {
       external: [
-        'react',
-        'react/jsx-runtime',
+        "react",
+        "react/jsx-runtime",
         // 'barcode-detector/pure',
         // 'webrtc-adapter/dist/utils',
         // 'webrtc-adapter/dist/chrome/getusermedia',
@@ -32,8 +31,8 @@ export default defineConfig({
         // 'webrtc-adapter/dist/safari/safari_shim',
       ],
       output: {
-        exports: "named"
-      }
-    }
+        exports: "named",
+      },
+    },
   },
 });

@@ -28,7 +28,6 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
         console.log(sel.style.display);
         if (sel.style.display === 'none') {
           sel.style.display = 'block';
-          // @ts-expect-error: complains about showPicker not existing
           sel.showPicker();
         }
         else {
