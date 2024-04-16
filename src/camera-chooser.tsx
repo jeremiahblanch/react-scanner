@@ -25,7 +25,7 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
 
     const toggleSelect = () => {
         const sel = getSelectElement();
-        console.log(sel.style.display);
+
         if (sel.style.display === 'none') {
           sel.style.display = 'block';
           sel.showPicker();
@@ -37,6 +37,7 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
 
     const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const index = parseInt((e.target as HTMLSelectElement).value)
+
         onSelect(index);
         getSelectElement().style.display = 'none';
     }
@@ -66,6 +67,9 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
             border: 0,
             color: "#000",
             display: 'flex',
+            padding: '0.5rem',
+            position: 'relative',
+            zIndex: 1,
           }}
           type="button"
         >
