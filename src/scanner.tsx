@@ -5,6 +5,7 @@ import { getDevices, getUserMedia, handleStream, releaseStream } from "./utils/c
 import { useDecoder } from "./utils/use-decoder"
 import type ScannerProps from "./types/scanner-props"
 import type Styleable from "./types/styleable"
+import CameraChooser from './camera-chooser';
 
 interface HTMLVideoElementExtended extends HTMLVideoElement {
   mozSrcObject?: MediaStream
@@ -88,7 +89,12 @@ export default function Scanner({
     }
   }, [])
 
-  return <div id="barcode-scanner" className={className} style={style}>
+  return <div id="barcode-scanner" className={className} style={{ position: 'relative', ...style}}>
+    {devices.length > 1 && <CameraChooser 
+      devices={devices} 
+      selectedIndex={selectedDevice} 
+      onSelect={setSelectedDevice}
+    />}
     <video
       ref={preview}
       preload="none"
@@ -103,19 +109,5 @@ export default function Scanner({
         userSelect: 'none',
         pointerEvents: 'none',
       }} />
-    {devices.length > 1 && <select
-    className="barcode-scanner__device-selector"
-      value={selectedDevice}
-      onChange={e => {
-        const v = parseInt(e.target.value)
-        setSelectedDevice(Number.isNaN(v) ? undefined : v)
-      }}
-      style={{
-        width: '100%',
-        marginTop: '8px',
-        fontSize: '1rem',
-      }}>
-      {devices.map((v, i) => <option key={i} value={i}>{v.label}</option>)}
-    </select>}
   </div>
 }

@@ -7,5 +7,4 @@ export default interface ScannerProps {
   delay?: number;
   aspectRatio?: string;
   decoderOptions?: BarcodeDetectorOptions;
-  canSwitchToImage?: boolean;
 }
