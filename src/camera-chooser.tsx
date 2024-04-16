@@ -23,52 +23,37 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
 
     const getSelectElement = (): HTMLSelectElement => (selRef.current as unknown as HTMLSelectElement);
 
-    const toggleSelect = () => {
-        const sel = getSelectElement();
-
-        if (sel.style.display === 'none') {
-          sel.style.display = 'block';
-          sel.showPicker();
-        }
-        else {
-            sel.style.display = 'none';
-        }
-    }
+    const openSelect = () => getSelectElement().showPicker();
 
     const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const index = parseInt((e.target as HTMLSelectElement).value)
 
         onSelect(index);
-        getSelectElement().style.display = 'none';
     }
 
-    const onSelectClick = () => {
-        const sel = getSelectElement();
-        
-        if (sel.style.display === 'block') {
-          sel.style.display = 'none';
-        }
-    };
-
     return (
-      <div style={{
-        left: '50%',
-        position: 'absolute',
-        textAlign: 'center',
-        top: 0,
-        transform: 'translateX(-50%)',
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          left: 0,
+          padding: "0.25rem",
+          position: "absolute",
+          top: 0,
+          width: "100%",
+        }}
+      >
         <button
-          onClick={toggleSelect}
+          onClick={openSelect}
           style={{
-            alignItems: 'center',
+            alignItems: "center",
             backgroundColor: "#ccc",
             borderRadius: "0.5rem",
             border: 0,
             color: "#000",
-            display: 'flex',
-            padding: '0.5rem',
-            position: 'relative',
+            display: "flex",
+            padding: "0.5rem",
+            position: "relative",
             zIndex: 1,
           }}
           type="button"
@@ -78,16 +63,12 @@ export default function CameraChooser({ devices, selectedIndex, onSelect}: Camer
         <select
           style={{
             display: "none",
-            height: 0,
-            width: 0,
-            position: 'absolute',
+            position: "absolute",
             opacity: 0,
-            zIndex: -1,
           }}
           ref={selRef}
           value={selectedIndex}
           onChange={onSelectChange}
-          onClick={onSelectClick}
         >
           {devices.map((device, i) => (
             <option key={i} value={i}>
