@@ -1,10 +1,6 @@
 import { ChangeEvent, useRef } from 'react';
+import type CameraChooserProps from "./types/camera-chooser-props";
 
-interface CameraChooserProps  {
-    devices: MediaDeviceInfo[],
-    selectedIndex?: number,
-    onSelect: (index: number) => void;
-}
 // icon from HeroIcons camera solid
 const Icon = () => (
   <svg
