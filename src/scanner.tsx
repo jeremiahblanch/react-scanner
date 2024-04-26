@@ -18,6 +18,7 @@ export default function Scanner({
   delay = 800,
   aspectRatio = '1/1',
   decoderOptions,
+  formats,
   className,
   style,
 }: ScannerProps & Styleable) {
@@ -28,7 +29,14 @@ export default function Scanner({
   const timeoutId = useRef<NodeJS.Timeout | null>(null)
   const stream = useRef<MediaStream | null>(null)
   const isMounted = useRef<boolean>(false)
-  const decoder = useDecoder(decoderOptions)
+
+  // ensure a format is defined - we print out target formats to the screen so we need it here.
+  const targetFormats = formats ?? decoderOptions?.formats ?? ['qr_code'];
+
+  const decoder = useDecoder({
+    ...decoderOptions,
+    formats: targetFormats
+  })
 
   const decode = () => {
     if (!preview.current) return
@@ -109,5 +117,6 @@ export default function Scanner({
         userSelect: 'none',
         pointerEvents: 'none',
       }} />
+      <small>Looking for {targetFormats.join(', ')}</small>
   </div>
 }

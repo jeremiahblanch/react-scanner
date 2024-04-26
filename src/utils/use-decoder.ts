@@ -4,9 +4,8 @@ import { useEffect, useRef } from "react";
 export type Decoder = (imageData: ImageBitmapSourceWebCodecs) => Promise<string | null | undefined>
 
 const createDecoder = (opts?: BarcodeDetectorOptions) => {
-  const detector = new BarcodeDetector(opts || {
-    formats: ['qr_code']
-  })
+  const detector = new BarcodeDetector(opts)
+
   return async (imageData: ImageBitmapSourceWebCodecs) => {
     try {
       const decoded = await detector.detect(imageData);

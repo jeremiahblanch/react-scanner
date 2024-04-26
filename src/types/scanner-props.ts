@@ -1,4 +1,4 @@
-import type { BarcodeDetectorOptions } from "barcode-detector/pure";
+import type { BarcodeDetectorOptions, BarcodeFormat } from "barcode-detector/pure";
 
 export default interface ScannerProps {
   onError?: (error: Error) => void;
@@ -7,4 +7,5 @@ export default interface ScannerProps {
   delay?: number;
   aspectRatio?: string;
   decoderOptions?: BarcodeDetectorOptions;
+  formats?: BarcodeFormat[],
 }
