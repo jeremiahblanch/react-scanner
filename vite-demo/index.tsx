@@ -1,13 +1,9 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { Scanner } from '../src/';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './App';
 
-const container = document.querySelector("#root");
-const root = createRoot(container!);
-root.render(
-  <Scanner
-    style={{ width: "100vw", height: "100vh" }}
-    onScan={console.log}
-    aspectRatio="unset"
-  />
+createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
