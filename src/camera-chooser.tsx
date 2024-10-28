@@ -1,5 +1,5 @@
-import { ChangeEvent, useRef } from 'react';
-import type CameraChooserProps from "./types/camera-chooser-props";
+import { ChangeEvent, useCallback, useRef } from 'react';
+import type CameraChooserProps from './types/camera-chooser-props';
 import type Styleable from './types/styleable';
 
 // icon from HeroIcons camera solid
@@ -8,7 +8,7 @@ const Icon = ({ style = {} }: Styleable) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColorstyle"
-    style={{ width: "24px", height: "24px" , ...style}}
+    style={{ width: '24px', height: '24px', ...style }}
   >
     <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
     <path
@@ -19,64 +19,77 @@ const Icon = ({ style = {} }: Styleable) => (
   </svg>
 );
 
-export default function CameraChooser({ devices, selectedIndex, onSelect}: CameraChooserProps) {
-    const selRef = useRef(null);
+export default function CameraChooser({
+  devices,
+  selectedIndex,
+  onSelect,
+}: CameraChooserProps) {
+  const selRef = useRef(null);
 
-    const getSelectElement = (): HTMLSelectElement => (selRef.current as unknown as HTMLSelectElement);
+  const openSelect = useCallback(
+    () =>
+      !!selRef.current && (selRef.current as HTMLSelectElement).showPicker(),
+    []
+  );
 
-    const openSelect = () => getSelectElement().showPicker();
+  const onSelectChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      const index = parseInt((e.target as HTMLSelectElement).value);
 
-    const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        const index = parseInt((e.target as HTMLSelectElement).value)
+      onSelect(index);
+    },
+    [onSelect]
+  );
 
-        onSelect(index);
-    }
-
-    return (
-      <div
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        left: 0,
+        padding: '1rem',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        zIndex: 1,
+      }}
+    >
+      <button
+        onClick={openSelect}
         style={{
-          display: "flex",
-          justifyContent: "center",
-          left: 0,
-          padding: "1rem",
-          position: "absolute",
-          top: 0,
-          width: "100%",
+          alignItems: 'center',
+          backgroundColor: '#ccc',
+          borderRadius: '0.5rem',
+          border: '1px solid #000',
+          boxShadow: '0 0 0.75rem 0rem #000',
+          color: '#000',
+          display: 'flex',
+          fontSize: '1.5rem',
+          lineHeight: '1.5rem',
+          padding: '0.75rem 0.75rem 0.75rem 1.25rem',
+          position: 'relative',
+          zIndex: 1,
         }}
+        type="button"
       >
-        <button
-          onClick={openSelect}
-          style={{
-            alignItems: "center",
-            backgroundColor: "#ccc",
-            borderRadius: "0.5rem",
-            border: 0,
-            color: "#000",
-            display: "flex",
-            padding: "0.5rem",
-            position: "relative",
-            zIndex: 1,
-          }}
-          type="button"
-        >
-          <Icon style={{ marginRight: "0.5rem" }} />
-          &#9660;
-        </button>
-        <select
-          style={{
-            position: "absolute",
-            opacity: 0,
-          }}
-          ref={selRef}
-          value={selectedIndex}
-          onChange={onSelectChange}
-        >
-          {devices.map((device, i) => (
-            <option key={i} value={i}>
-              {device.label}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
+        <Icon style={{ marginRight: '0.5rem' }} />
+        &#9660;
+      </button>
+      <select
+        style={{
+          position: 'absolute',
+          opacity: 0,
+        }}
+        ref={selRef}
+        value={selectedIndex}
+        onChange={onSelectChange}
+      >
+        {devices.map((device, i) => (
+          <option key={i} value={i}>
+            {device.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 }

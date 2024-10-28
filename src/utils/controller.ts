@@ -1,5 +1,5 @@
-import { eventOn, videoReady } from "."
-import HTMLVideoElementExtended from "../types/html-video-element"
+import { eventOn, videoReady } from '.';
+import HTMLVideoElementExtended from '../types/html-video-element';
 
 export const handleStream = async (
   preview: HTMLVideoElementExtended,
@@ -8,51 +8,54 @@ export const handleStream = async (
   info: MediaDeviceInfo
 ) => {
   if (preview.srcObject !== undefined) {
-    preview.srcObject = stream
+    preview.srcObject = stream;
   } else if (preview.mozSrcObject !== undefined) {
-    preview.mozSrcObject = stream
+    preview.mozSrcObject = stream;
   } else if (window.URL.createObjectURL) {
-    preview.src = window.URL.createObjectURL(stream as any)
+    preview.src = window.URL.createObjectURL(stream as any);
   } else if (window.webkitURL) {
-    preview.src = window.webkitURL.createObjectURL(stream as any)
+    preview.src = window.webkitURL.createObjectURL(stream as any);
   } else {
-    preview.src = stream as any
+    preview.src = stream as any;
   }
 
-  await eventOn(preview, 'canplay')
+  await eventOn(preview, 'canplay');
 
-  const isFrontCamera = /front|user|face/gi.test(info.label)
-  preview.style.transform = isFrontCamera ? 'scaleX(-1)' : ''
+  const isFrontCamera = /front|user|face/gi.test(info.label);
+  preview.style.transform = isFrontCamera ? 'scaleX(-1)' : '';
 
-  await preview.play()
-  await videoReady(preview, delay)
-}
+  await preview.play();
+  await videoReady(preview, delay);
+};
 
 export const releaseStream = (
   preview: HTMLVideoElementExtended | null,
-  stream: MediaStream,
+  stream: MediaStream
 ) => {
-  if (stream) for (const track of stream.getVideoTracks()) {
-    stream.removeTrack(track)
-    track.stop()
-  }
+  if (stream)
+    for (const track of stream.getVideoTracks()) {
+      stream.removeTrack(track);
+      track.stop();
+    }
   if (preview) {
-    preview.src = ''
-    preview.srcObject = null
-    preview.load()
+    preview.src = '';
+    preview.srcObject = null;
+    preview.load();
   }
-}
+};
 
 export const getDevices = async () => {
+  //call getUserMedia first to ensure enumerateDevices returns a complete list
+  await getUserMedia();
+
   return navigator.mediaDevices
     .enumerateDevices()
-    .then(ds => ds.filter((d) => d.kind === 'videoinput'))
-}
+    .then((ds) => ds.filter((d) => d.kind === 'videoinput'));
+};
 
-export const getUserMedia = async (deviceId: string) => {
-  return navigator.mediaDevices
-    .getUserMedia({
-      audio: false,
-      video: { deviceId }
-    })
-}
+export const getUserMedia = async (deviceId?: string) => {
+  return navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: deviceId ? { deviceId } : true,
+  });
+};

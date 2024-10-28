@@ -20,9 +20,14 @@ export const App = () => {
   );
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex flex-wrap' }}>
       <Scanner
-        style={{ width: '50vw', height: '50vh' }}
+        style={{
+          width: '100%',
+          height: '100%',
+          maxWidth: '500px',
+          maxHeight: '500px',
+        }}
         onScan={onScan}
         aspectRatio="unset"
       />

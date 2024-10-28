@@ -55,10 +55,15 @@ export default function Scanner({
       .catch(onError);
   }, [decoder, delay, onError, onScan]);
 
-  const release = () => {
-    if (timeoutId.current) clearTimeout(timeoutId.current);
-    stream.current && releaseStream(preview.current, stream.current);
-  };
+  const release = useCallback(() => {
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+
+    if (stream.current) {
+      releaseStream(preview.current, stream.current);
+    }
+  }, []);
 
   useEffect(() => {
     getDevices()
@@ -69,28 +74,37 @@ export default function Scanner({
       .catch(onError);
 
     return release;
-  }, [onError, preview]);
+  }, [onError, preview, release]);
 
   useEffect(() => {
-    if (selectedDevice == undefined || selectedDevice >= devices.length) return;
+    if (selectedDevice == undefined || selectedDevice >= devices.length) {
+      return;
+    }
 
     if (localStorage) {
       localStorage.setItem('previousDevice', `${selectedDevice}`);
     }
+
     const selected = devices[selectedDevice];
+
     getUserMedia(selected.deviceId)
       .then((s) => {
-        if (!preview.current) return;
+        if (!preview.current) {
+          return;
+        }
+
         stream.current = s;
 
-        if (isMounted) {
+        if (isMounted.current) {
           handleStream(preview.current, s, delay, selected).then(decode);
-        } else releaseStream(preview.current, s);
+        } else {
+          releaseStream(preview.current, s);
+        }
       })
       .catch(onError);
 
     return release;
-  }, [decode, delay, devices, onError, selectedDevice]);
+  }, [decode, delay, devices, onError, release, selectedDevice]);
 
   useEffect(() => {
     shimGetUserMedia();
@@ -100,7 +114,7 @@ export default function Scanner({
       isMounted.current = false;
       release();
     };
-  }, []);
+  }, [release]);
 
   return (
     <div
@@ -108,13 +122,6 @@ export default function Scanner({
       className={className}
       style={{ position: 'relative', ...style }}
     >
-      {devices.length > 1 && (
-        <CameraChooser
-          devices={devices}
-          selectedIndex={selectedDevice}
-          onSelect={setSelectedDevice}
-        />
-      )}
       <video
         ref={preview}
         preload="none"
@@ -128,8 +135,17 @@ export default function Scanner({
           transform: flipHorizontally ? 'scaleX(1)' : 'scaleX(-1)',
           userSelect: 'none',
           pointerEvents: 'none',
+          position: 'relative',
+          zIndex: 0,
         }}
       />
+      {devices.length > 1 && (
+        <CameraChooser
+          devices={devices}
+          selectedIndex={selectedDevice}
+          onSelect={setSelectedDevice}
+        />
+      )}
     </div>
   );
 }

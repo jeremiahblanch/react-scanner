@@ -1,7 +1,7 @@
 {
   "name": "@jeremiahblanch/react-scanner",
-  "version": "1.1.8",
-  "description": "QrCode and Barcode scanner component for React apps",
+  "version": "1.1.9",
+  "description": "QRCode and Barcode scanner component for React apps",
   "license": "MIT",
   "author": "Jeremiah Blanch",
   "keywords": [
@@ -24,7 +24,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "build-publish": "npm run build && npm run publish-to-npm",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -50,5 +50,8 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-basic-ssl": "^1.1.0"
   }
 }
